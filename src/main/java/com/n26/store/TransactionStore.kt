@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 open class TransactionStore(private var transactionsList: MutableList<Transaction>
                             = CopyOnWriteArrayList(ArrayList<Transaction>())) : Observable() {
 
-    @Scheduled(cron = "* * * ? * *")
+    @Scheduled(fixedRate = 1000L)
     fun expireOldTransactions() {
         expireFrom(Instant.now().minusSeconds(60))
     }

@@ -9,9 +9,6 @@ class StatisticsQuery(private val statisticsStore: StatisticsStore) {
 
     fun get(): Statistics {
         val statistics = statisticsStore.statistics
-
-        println(statistics.callNumber)
-
         return statistics
     }
 }

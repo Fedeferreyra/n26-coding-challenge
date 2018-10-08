@@ -9,5 +9,4 @@ data class Statistics(val sum: BigDecimal = BigDecimal.ZERO,
                       val max: BigDecimal = BigDecimal.ZERO,
                       val min: BigDecimal = BigDecimal.ZERO,
                       val count: Long = 0L,
-                      @JsonIgnore val lastUpdate: Instant = Instant.now(),
-                      @JsonIgnore val callNumber: Int = 0)
+                      @JsonIgnore val lastUpdate: Instant = Instant.now())

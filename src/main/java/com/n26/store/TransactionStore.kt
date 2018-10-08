@@ -14,14 +14,14 @@ import java.util.concurrent.CopyOnWriteArrayList
 open class TransactionStore(private var transactionsList: MutableList<Transaction>
                             = CopyOnWriteArrayList(ArrayList<Transaction>())) : Observable() {
 
-    @Scheduled(fixedRate = 1000L)
-    fun purgeOldTransactions() {
-        purgeFrom(Instant.now().minusSeconds(60))
+    @Scheduled(cron = "* * * ? * *")
+    fun expireOldTransactions() {
+        expireFrom(Instant.now().minusSeconds(60))
     }
 
     open fun save(request: TransactionRequest) {
         transactionsList.add(request.transaction)
-        notifyChanges(request.transactionInstant, "SAVE")
+        notifyChanges(request.transactionInstant)
     }
 
     fun purgeEntireStore() {
@@ -29,13 +29,13 @@ open class TransactionStore(private var transactionsList: MutableList<Transactio
         notifyChanges(Instant.now())
     }
 
-    private fun purgeFrom(instant: Instant) {
+    private fun expireFrom(instant: Instant) {
         transactionsList.removeAll { it.timestamp.isBefore(instant) }
         notifyChanges(Instant.now())
     }
 
-    private fun notifyChanges(updateInstant: Instant, type: String = "default") {
+    private fun notifyChanges(updateInstant: Instant) {
         setChanged()
-        notifyObservers(UpdateNotification(updateInstant, transactionsList, type))
+        notifyObservers(UpdateNotification(updateInstant, transactionsList))
     }
 }

@@ -45,7 +45,7 @@ class TransactionStoreTest {
         transactionStore.save(TransactionRequest(transactionToBePurged))
         transactionStore.save(TransactionRequest(transactionToNotBePurged))
 
-        transactionStore.purgeOldTransactions()
+        transactionStore.expireOldTransactions()
 
         verify(observer, times(3)).update(any(), check{
             it as UpdateNotification

@@ -22,7 +22,7 @@ class StatisticsCalculator : Function<UpdateNotification, Statistics> {
                 var count = 0L
 
                 notification.transactions.forEach {
-                    if (it.timestamp.isAfter(Instant.now().minusSeconds(59).minusMillis(100))) {
+                    if (it.timestamp.isAfter(notification.updateInstant.minusSeconds(59).minusMillis(100))) {
                         count++
                         sum = sum.add(it.amount)
                         if (it.amount < min) min = it.amount
